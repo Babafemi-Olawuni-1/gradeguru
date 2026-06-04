@@ -1,0 +1,8 @@
+{
+    "name": "gradeguru/api",
+    "description": "GradeGuru PHP API",
+    "require": {
+        "php": "^8.1",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

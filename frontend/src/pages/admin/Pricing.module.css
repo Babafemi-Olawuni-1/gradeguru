@@ -1,0 +1,159 @@
+.page { display: flex; flex-direction: column; gap: 1.5rem; }
+
+/* ── Current plan banner ── */
+.currentBanner {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.75rem;
+  background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.2);
+  border-radius: 12px; padding: 1rem 1.25rem;
+}
+.bannerLeft { display: flex; align-items: center; gap: 0.75rem; }
+.bannerLabel { font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+.bannerPlan  { font-size: 1rem; font-weight: 800; color: #1e1e2e; }
+.bannerHint  { font-size: 0.82rem; color: #6b7280; }
+
+/* ── Toggle ── */
+.toggleWrap { display: flex; justify-content: center; }
+.toggle {
+  display: inline-flex; background: #f5f6fa; border: 1px solid #e8eaf0;
+  border-radius: 10px; padding: 4px; gap: 2px;
+}
+.toggle button {
+  background: transparent; border: none; color: #6b7280;
+  font-size: 0.88rem; font-weight: 600; padding: 0.5rem 1.2rem;
+  border-radius: 8px; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;
+}
+.toggleActive { background: var(--purple) !important; color: #fff !important; }
+.saveBadge {
+  background: rgba(22,163,74,0.12); color: #16a34a;
+  font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 50px;
+}
+
+/* ── Plans grid — auto-fit ── */
+.plansGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1.25rem; align-items: start;
+}
+
+.planCard {
+  background: #fff; border: 2px solid #e8eaf0;
+  border-radius: 16px; padding: 1.5rem;
+  position: relative; transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex; flex-direction: column; gap: 1.1rem;
+}
+.planCard:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+.popular { border-color: var(--purple) !important; }
+.current { border-color: #16a34a !important; }
+
+.popularBadge, .currentBadge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.9rem;
+  border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+}
+.popularBadge { background: var(--purple); color: #fff; }
+.currentBadge { background: #16a34a; color: #fff; }
+
+.planTop {}
+.planName { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.4rem; }
+.planPrice { font-size: 2.2rem; font-weight: 900; color: #1e1e2e; line-height: 1; margin-bottom: 0.3rem; }
+.planPrice span { font-size: 0.9rem; font-weight: 400; color: #9ca3af; }
+.planDesc { font-size: 0.82rem; color: #6b7280; }
+
+.featureList { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+.featureList li { display: flex; align-items: center; gap: 0.55rem; font-size: 0.85rem; color: #374151; }
+.featureList li.featureNo { opacity: 0.45; }
+.checkIcon { color: #16a34a; flex-shrink: 0; }
+.crossIcon { color: #9ca3af; flex-shrink: 0; }
+
+.planAction { margin-top: auto; }
+.upgradeBtn {
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  width: 100%; color: #fff; padding: 0.8rem;
+  border-radius: 10px; font-size: 0.9rem; font-weight: 700;
+  border: none; cursor: pointer; transition: opacity 0.2s;
+}
+.upgradeBtn:hover { opacity: 0.88; }
+.currentTag {
+  text-align: center; padding: 0.75rem;
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 10px; font-size: 0.85rem; font-weight: 700; color: #16a34a;
+}
+.downgradTag {
+  text-align: center; padding: 0.75rem;
+  background: #f9fafb; border: 1px solid #e8eaf0;
+  border-radius: 10px; font-size: 0.82rem; color: #9ca3af;
+}
+
+/* ── PIN pricing ── */
+.pinSection {
+  background: #fff; border: 1px solid #e8eaf0;
+  border-radius: 14px; padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.pinSection h3 { font-size: 1rem; font-weight: 800; color: #1e1e2e; margin-bottom: 1rem; }
+.pinGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+  gap: 1rem; margin-bottom: 1rem;
+}
+.pinCard {
+  background: #f9fafb; border: 1px solid #e8eaf0;
+  border-radius: 10px; padding: 1rem; text-align: center;
+  display: flex; flex-direction: column; gap: 0.3rem;
+}
+.pinPlan  { font-size: 0.75rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+.pinPrice { font-size: 1.5rem; font-weight: 900; color: #1e1e2e; }
+.pinPrice small { font-size: 0.8rem; font-weight: 400; color: #9ca3af; }
+.pinSaving { font-size: 0.75rem; font-weight: 700; color: #16a34a; background: #f0fdf4; border-radius: 50px; padding: 0.15rem 0.5rem; }
+.bulkNote {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  background: #f9fafb; border: 1px solid #e8eaf0;
+  border-radius: 10px; padding: 0.9rem 1.1rem;
+  font-size: 0.85rem; color: #374151;
+}
+.bulkNote strong { color: #1e1e2e; }
+.bulkNote b { color: #16a34a; }
+
+/* ── Add-ons ── */
+.addonsSection {
+  background: #fff; border: 1px solid #e8eaf0;
+  border-radius: 14px; padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.addonsSection h3 { font-size: 1rem; font-weight: 800; color: #1e1e2e; margin-bottom: 0.3rem; }
+.addonsSection > p { font-size: 0.82rem; color: #6b7280; margin-bottom: 1rem; }
+.addonsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 0.75rem;
+}
+.addonCard {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #f9fafb; border: 1px solid #e8eaf0;
+  border-radius: 10px; padding: 0.9rem 1rem; gap: 0.75rem;
+}
+.addonCard strong { display: block; font-size: 0.88rem; font-weight: 700; color: #1e1e2e; }
+.addonCard span   { font-size: 0.78rem; color: #6b7280; }
+.addonPrice { font-size: 0.88rem; font-weight: 700; color: var(--purple); white-space: nowrap; flex-shrink: 0; }
+
+/* ── FAQ ── */
+.faqSection {
+  background: #fff; border: 1px solid #e8eaf0;
+  border-radius: 14px; padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.faqSection h3 { font-size: 1rem; font-weight: 800; color: #1e1e2e; margin-bottom: 1rem; }
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1rem;
+}
+.faqCard {
+  background: #f9fafb; border: 1px solid #e8eaf0;
+  border-radius: 10px; padding: 1rem;
+}
+.faqCard strong { display: block; font-size: 0.88rem; font-weight: 700; color: #1e1e2e; margin-bottom: 0.4rem; }
+.faqCard p { font-size: 0.82rem; color: #6b7280; line-height: 1.6; }

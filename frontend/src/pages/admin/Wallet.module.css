@@ -1,0 +1,50 @@
+.balanceCard {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+  background: linear-gradient(135deg, var(--purple), #a855f7);
+  border-radius: 14px; padding: 1.5rem;
+  margin-bottom: 1.5rem; color: #fff;
+  box-shadow: 0 8px 32px rgba(124,58,237,0.3);
+}
+.balanceLabel { font-size: 0.8rem; color: rgba(255,255,255,0.75); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.balanceAmount { font-size: 2.4rem; font-weight: 900; color: #fff; line-height: 1; }
+.balanceActions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.balanceActions .btnPrimary {
+  background: rgba(255,255,255,0.2); color: #fff;
+  border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(8px);
+}
+.balanceActions .btnPrimary:hover { background: rgba(255,255,255,0.3); }
+
+.txTitle { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #9ca3af; margin-bottom: 0.9rem; }
+
+.credit { color: #16a34a !important; font-weight: 700; }
+.debit  { color: #dc2626 !important; font-weight: 700; }
+
+.quickAmounts { display: flex; gap: 0.4rem; flex-wrap: wrap; margin: 0.5rem 0; }
+.quickBtn {
+  background: #f5f6fa; border: 1px solid #e8eaf0;
+  color: #374151; padding: 0.35rem 0.8rem; border-radius: 8px;
+  font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+}
+.quickBtn:hover { border-color: var(--purple); color: var(--purple); }
+.quickActive {
+  background: rgba(124,58,237,0.08); border: 1px solid var(--purple);
+  color: var(--purple); padding: 0.35rem 0.8rem; border-radius: 8px;
+  font-size: 0.82rem; cursor: pointer; font-weight: 700;
+}
+
+.payBox {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.9rem; text-align: center; padding: 0.75rem 0;
+}
+.payBox h4 { font-size: 1.1rem; font-weight: 800; color: #1e1e2e; }
+.payBox p  { color: #6b7280; font-size: 0.88rem; }
+
+@media (max-width: 480px) {
+  .balanceCard  { padding: 1.25rem; border-radius: 12px; }
+  .balanceAmount { font-size: 2rem; }
+  .balanceActions { width: 100%; }
+  .balanceActions .btnPrimary { flex: 1; justify-content: center; }
+  .quickAmounts { gap: 0.35rem; }
+  .quickBtn, .quickActive { padding: 0.3rem 0.65rem; font-size: 0.78rem; }
+}

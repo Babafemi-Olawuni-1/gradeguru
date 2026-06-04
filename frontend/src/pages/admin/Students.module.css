@@ -1,0 +1,54 @@
+/* ── Students page extras ── */
+
+/* Passport thumbnail in table */
+.photoThumb {
+  width: 34px; height: 34px; border-radius: 50%;
+  overflow: hidden; background: linear-gradient(135deg, var(--purple), #a855f7);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+  border: 1px solid #e8eaf0;
+}
+.photoThumb img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Passport upload in form */
+.photoUploadRow {
+  display: flex; align-items: center; gap: 1rem;
+  padding-bottom: 0.5rem;
+}
+.photoUpload {
+  width: 72px; height: 88px; border-radius: 8px;
+  border: 2px dashed #e8eaf0; overflow: hidden;
+  position: relative; cursor: pointer; flex-shrink: 0;
+  background: #f9fafb; transition: border-color 0.2s;
+}
+.photoUpload:hover { border-color: var(--purple); }
+.photoUpload img { width: 100%; height: 100%; object-fit: cover; }
+.photoPlaceholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center; color: #9ca3af;
+}
+.photoOverlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.45); color: #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; font-size: 0.7rem; font-weight: 600;
+  opacity: 0; transition: opacity 0.2s;
+}
+.photoUpload:hover .photoOverlay { opacity: 1; }
+.photoHint { font-size: 0.78rem; color: #9ca3af; line-height: 1.5; }
+
+.req { color: #ef4444; }
+
+/* Filters row */
+.filters {
+  display: flex; align-items: center; gap: 0.6rem;
+  flex: 1; flex-wrap: wrap;
+}
+.classFilter {
+  background: #fff; border: 1px solid #e8eaf0;
+  border-radius: 10px; padding: 0.55rem 0.9rem;
+  font-size: 0.88rem; color: #374151; font-family: inherit;
+  cursor: pointer; min-width: 140px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.classFilter:focus { outline: none; border-color: var(--purple); }

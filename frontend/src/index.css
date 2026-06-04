@@ -1,0 +1,62 @@
+:root {
+  --blue-dark:     #050a1f;
+  --blue-mid:      #0a1432;
+  --blue-light:    #0f1c4a;
+  --purple:        #7c3aed;
+  --purple-hover:  #6d28d9;
+  --purple-light:  #a78bfa;
+  --purple-glow:   rgba(124,58,237,0.35);
+  --white:         #ffffff;
+  --white-muted:   #c7d2fe;
+  --text-dim:      #64748b;
+  --card-bg:       rgba(255,255,255,0.03);
+  --card-border:   rgba(255,255,255,0.08);
+  --radius:        16px;
+  --radius-lg:     24px;
+  --shadow:        0 24px 72px rgba(0,0,0,0.6);
+  --shadow-purple: 0 12px 48px rgba(124,58,237,0.25);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* All pages = dark blue by default */
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: var(--blue-dark);
+  color: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(124,58,237,0.1) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(124,58,237,0.06) 0%, transparent 45%);
+  pointer-events: none; z-index: 0;
+}
+
+a { text-decoration: none; color: inherit; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--blue-dark); }
+::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+
+/* Admin pages override to white — also kill the body::before overlay */
+.admin-layout {
+  background: #f5f6fa !important;
+  color: #1e1e2e !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* Neutralise the dark body::before gradient inside admin */
+.admin-layout::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: #f5f6fa;
+  z-index: -1;
+  pointer-events: none;
+}
