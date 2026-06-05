@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
-
-const BASE = '/api'
+import { API_BASE_URL } from '../config'
 
 export function useApi() {
   const request = useCallback(async (method, path, body = null) => {
@@ -17,7 +16,7 @@ export function useApi() {
 
     let res
     try {
-      res = await fetch(`${BASE}${path}`, opts)
+      res = await fetch(`${API_BASE_URL}${path}`, opts)
     } catch (networkErr) {
       throw new Error(`Network error — check your connection`)
     }

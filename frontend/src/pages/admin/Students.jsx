@@ -3,6 +3,7 @@ import { Plus, Search, Edit2, UserX, Upload, Download, X, Check, Camera } from '
 import AdminLayout from '../../components/admin/AdminLayout'
 import { useApi } from '../../hooks/useApi'
 import { resolveUrl } from '../../utils/resolveUrl'
+import { API_BASE_URL } from '../../config'
 import styles from './AdminPage.module.css'
 import ss from './Students.module.css'
 
@@ -110,7 +111,7 @@ export default function Students() {
     const fd = new FormData()
     fd.append('file', file)
     fd.append('type', 'gallery') // reuse gallery upload, stores in uploads/gallery
-    const res = await fetch('/api/school/upload', {
+    const res = await fetch(`${API_BASE_URL}/school/upload`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${localStorage.getItem('gg_token')}` },
       body: fd,

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import styles from './Settings.module.css'
 import { resolveUrl } from '../../utils/resolveUrl'
+import { API_BASE_URL } from '../../config'
 
 const REPORT_TEMPLATES = [
   {
@@ -136,7 +137,7 @@ export default function Settings() {
     const fd = new FormData()
     fd.append('file', file)
     fd.append('type', type)
-    const res = await fetch('/api/school/upload', {
+    const res = await fetch(`${API_BASE_URL}/school/upload`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${localStorage.getItem('gg_token')}` },
       body: fd,

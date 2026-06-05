@@ -1,59 +1,46 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
-// Load .env file for Supabase credentials (if config.php doesn't have them)
-if (file_exists(__DIR__ . '/../.env')) {
-    $lines = file(__DIR__ . '/../.env');
-    foreach ($lines as $line) {
-        $line = trim($line);
-        if (strpos($line, '=') !== false && strpos($line, '#') !== 0) {
-            list($key, $value) = explode('=', $line, 2);
-            if (!defined($key)) {
-                putenv("$key=$value");
-            }
-        }
-    }
-}
-
+/**
+ * Returns a singleton PDO connection to the cPanel MySQL database.
+ * Credentials come entirely from config.php — no .env, no Supabase, no PostgreSQL.
+ */
 function db(): PDO {
     static $pdo = null;
     if ($pdo === null) {
         try {
-            // Check if we should use Supabase (PostgreSQL) or local MySQL
-            $useSupabase = getenv('SUPABASE_DB_HOST') ? true : false;
-            
-            if ($useSupabase) {
-                // Supabase PostgreSQL connection
-                $host = getenv('SUPABASE_DB_HOST');
-                $port = getenv('SUPABASE_DB_PORT') ?: '5432';
-                $dbname = getenv('SUPABASE_DB_NAME') ?: 'postgres';
-                $user = getenv('SUPABASE_DB_USER') ?: 'postgres';
-                $password = getenv('SUPABASE_DB_PASSWORD') ?: '';
-                
-                $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
-                $pdo = new PDO($dsn, $user, $password, [
+            $pdo = new PDO(
+                'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+                DB_USER,
+                DB_PASS,
+                [
                     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                ]);
-            } else {
-                // Local MySQL connection (for development)
-                $pdo = new PDO(
-                    'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
-                    DB_USER, DB_PASS,
-                    [
-                        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                        PDO::ATTR_EMULATE_PREPARES   => false,
-                    ]
-                );
-            }
+                    PDO::ATTR_EMULATE_PREPARES   => false,
+                ]
+            );
         } catch (PDOException $e) {
+            error_log('Database connection failed: ' . $e->getMessage());
             http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]);
+            echo json_encode(['success' => false, 'message' => 'Database connection failed. Please try again later.']);
             exit;
         }
     }
     return $pdo;
+}
+
+/**
+ * Verify the database connection is alive without exposing errors.
+ * Use this for health checks — never for table creation.
+ */
+function checkDbConnection(): bool {
+    try {
+        db()->query('SELECT 1');
+        return true;
+    } catch (PDOException $e) {
+        error_log('Database connection check failed: ' . $e->getMessage());
+        return false;
+    }
 }
 
 function query(string $sql, array $params = []): PDOStatement {
@@ -75,4 +62,3 @@ function insert(string $sql, array $params = []): int {
     query($sql, $params);
     return (int) db()->lastInsertId();
 }
-?>

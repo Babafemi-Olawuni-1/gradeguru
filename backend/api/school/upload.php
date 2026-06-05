@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 0);
+error_reporting(0);
+
 require_once __DIR__ . '/../../helpers/db.php';
 require_once __DIR__ . '/../../helpers/response.php';
 require_once __DIR__ . '/../../middleware/auth.php';
@@ -34,26 +37,30 @@ if (!in_array($mime, $allowed)) {
 // Size limits
 $maxSize = ($type === 'logo') ? 2 * 1024 * 1024 : 5 * 1024 * 1024;
 if ($file['size'] > $maxSize) {
-    error('File too large. Max ' . ($type === 'logo' ? '2MB' : '5MB') . '. Got: ' . round($file['size']/1024) . 'KB', 400);
+    error('File too large. Max ' . ($type === 'logo' ? '2MB' : '5MB') . '. Got: ' . round($file['size'] / 1024) . 'KB', 400);
 }
 
-// Extension
-$mimeToExt = ['image/jpeg'=>'jpg','image/png'=>'png','image/gif'=>'gif','image/webp'=>'webp'];
+// Extension from MIME
+$mimeToExt = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif', 'image/webp' => 'webp'];
 $ext       = $mimeToExt[$mime] ?? 'jpg';
-$filename  = $school['slug'] . '_' . uniqid() . '.' . $ext;
-$subdir    = ($type === 'logo') ? 'logos' : 'gallery';
-$dir       = __DIR__ . '/../../uploads/' . $subdir . '/';
 
-// Ensure directory exists
+// Sanitise slug for use in filename
+$safeSlug  = preg_replace('/[^a-z0-9\-]/', '', $school['slug']);
+$filename  = $safeSlug . '_' . uniqid() . '.' . $ext;
+$subdir    = ($type === 'logo') ? 'logos' : 'gallery';
+
+// Use UPLOAD_DIR constant defined in config.php (__DIR__/../../uploads/)
+$dir  = rtrim(UPLOAD_DIR, '/') . '/' . $subdir . '/';
 if (!is_dir($dir)) mkdir($dir, 0755, true);
 
 $dest = $dir . $filename;
 if (!move_uploaded_file($file['tmp_name'], $dest)) {
+    error_log('Upload failed: could not move to ' . $dest);
     error('Failed to save file to disk. Check folder permissions.', 500);
 }
 
-// Store as a root-relative path so it resolves correctly on any device/host
-$url = '/grade_guru/gradeguru/backend/uploads/' . $subdir . '/' . $filename;
+// Store as a web-accessible path relative to the backend uploads folder
+$url = '/backend/uploads/' . $subdir . '/' . $filename;
 
 // If logo, update school record immediately
 if ($type === 'logo') {

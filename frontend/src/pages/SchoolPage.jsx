@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import styles from './SchoolPage.module.css'
 import { resolveUrl } from '../utils/resolveUrl'
+import { API_BASE_URL } from '../config'
 
 export default function SchoolPage() {
   const { slug } = useParams()
@@ -42,7 +43,7 @@ export default function SchoolPage() {
   const [contactSent,  setContactSent]  = useState(false)
 
   useEffect(() => {
-    fetch(`/api/school/public?slug=${slug}`)
+    fetch(`${API_BASE_URL}/school/public?slug=${slug}`)
       .then(r => r.json())
       .then(d => {
         if (!d.success) { setNotFound(true); return }
@@ -93,7 +94,7 @@ export default function SchoolPage() {
     e.preventDefault()
     setChecking(true); setCheckErr(''); setResult(null)
     try {
-      const res  = await fetch('/api/pins/check', {
+      const res  = await fetch(`${API_BASE_URL}/pins/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug, pin_code: pin.trim().toUpperCase(), admission_number: admNo.trim() })
@@ -116,7 +117,7 @@ export default function SchoolPage() {
     <div className={styles.notFound}>
       <GraduationCap size={64} />
       <h1>School not found</h1>
-      <p>No active school at <code>gradeguru.com/s/{slug}</code></p>
+      <p>No active school at <code>gradeguru.atayesefm.com.ng/s/{slug}</code></p>
       <Link to="/">Back to GradeGuru</Link>
     </div>
   )

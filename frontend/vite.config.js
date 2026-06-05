@@ -6,6 +6,8 @@ export default defineConfig({
   server: {
     port: 3000,
     host: true,
+    // Dev proxy — routes /api/* to the local XAMPP backend
+    // (Only used during local development; production uses API_BASE_URL from config.js)
     proxy: {
       '/api': {
         target: 'http://localhost',
@@ -18,5 +20,9 @@ export default defineConfig({
         }
       }
     }
+  },
+  // Ensures React Router works with direct URL access after build
+  build: {
+    outDir: 'dist',
   }
 })

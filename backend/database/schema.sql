@@ -1,9 +1,9 @@
 -- ============================================================
 -- GRADEGURU DATABASE SCHEMA
+-- Import this into: atayesef_gradeguru (already exists on cPanel)
+-- DO NOT run CREATE DATABASE — the database already exists.
+-- Import via cPanel phpMyAdmin: select atayesef_gradeguru, then Import this file.
 -- ============================================================
-
-CREATE DATABASE IF NOT EXISTS gradeguru CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE gradeguru;
 
 -- ============================================================
 -- SCHOOLS
@@ -23,6 +23,13 @@ CREATE TABLE schools (
   plan_expires_at DATETIME     DEFAULT NULL,
   wallet_balance  DECIMAL(12,2) NOT NULL DEFAULT 0.00,
   onboarded       TINYINT(1)   NOT NULL DEFAULT 0,
+  -- Extended profile fields
+  about           TEXT         DEFAULT NULL,
+  founded_year    VARCHAR(10)  DEFAULT NULL,
+  founder_name    VARCHAR(200) DEFAULT NULL,
+  motto           VARCHAR(300) DEFAULT NULL,
+  school_type     VARCHAR(100) DEFAULT NULL,
+  gallery         JSON         DEFAULT NULL,
   created_at      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;

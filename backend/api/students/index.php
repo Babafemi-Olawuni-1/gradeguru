@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 0);
+error_reporting(0);
+
 require_once __DIR__ . '/../../helpers/db.php';
 require_once __DIR__ . '/../../helpers/response.php';
 require_once __DIR__ . '/../../helpers/validate.php';
@@ -24,13 +27,22 @@ if ($method === 'GET') {
     $search  = '%' . ($_GET['search'] ?? '') . '%';
     $classId = $_GET['class_id'] ?? null;
 
-    $where  = 'school_id = ? AND is_active = 1 AND (surname LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR admission_number LIKE ?)';
-    $params = [$school['id'], $search, $search, $search, $search];
+    // Only query columns that exist in the schema
+    $where  = 's.school_id = ? AND s.is_active = 1 AND (s.first_name LIKE ? OR s.last_name LIKE ? OR s.admission_number LIKE ?)';
+    $params = [$school['id'], $search, $search, $search];
 
-    if ($classId) { $where .= ' AND class_id = ?'; $params[] = $classId; }
+    if ($classId) { $where .= ' AND s.class_id = ?'; $params[] = $classId; }
 
-    $total    = fetchOne("SELECT COUNT(*) as c FROM students WHERE $where", $params)['c'];
-    $students = fetchAll("SELECT s.*, c.name as class_name FROM students s LEFT JOIN classes c ON c.id = s.class_id WHERE $where ORDER BY COALESCE(s.surname, s.first_name), s.first_name LIMIT $perPage OFFSET $offset", $params);
+    $total    = fetchOne("SELECT COUNT(*) as c FROM students s WHERE $where", $params)['c'];
+    $students = fetchAll(
+        "SELECT s.*, c.name as class_name
+         FROM students s
+         LEFT JOIN classes c ON c.id = s.class_id
+         WHERE $where
+         ORDER BY s.last_name, s.first_name
+         LIMIT $perPage OFFSET $offset",
+        $params
+    );
 
     success(paginate($students, $total, $page, $perPage));
 }
@@ -41,6 +53,7 @@ if ($method === 'POST') {
     $data = body();
     $errors = validate($data, [
         'first_name'       => 'required|max:100',
+        'last_name'        => 'required|max:100',
         'admission_number' => 'required|max:100',
     ]);
     if ($errors) error('Validation failed', 422, $errors);
@@ -52,16 +65,25 @@ if ($method === 'POST') {
         error("Student limit reached for {$school['plan']} plan ({$limits['students']} max). Please upgrade.", 403);
     }
 
-    // Duplicate admission number
-    if (fetchOne('SELECT id FROM students WHERE school_id = ? AND admission_number = ?', [$school['id'], $data['admission_number']])) {
+    // Duplicate admission number check
+    if (fetchOne('SELECT id FROM students WHERE school_id = ? AND admission_number = ?', [$school['id'], trim($data['admission_number'])])) {
         error('Admission number already exists in this school', 409);
     }
 
-    $id = insert(
-        'INSERT INTO students (school_id, class_id, surname, first_name, last_name, admission_number, date_of_birth, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-        [$school['id'], $data['class_id'] ?? null, $data['surname'] ?? null, $data['first_name'], $data['last_name'] ?? null, $data['admission_number'], $data['date_of_birth'] ?? null, $data['sex'] ?? null]
+    $newId = insert(
+        'INSERT INTO students (school_id, class_id, first_name, last_name, admission_number, date_of_birth, photo_url)
+         VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [
+            $school['id'],
+            $data['class_id']      ?? null,
+            trim($data['first_name']),
+            trim($data['last_name']),
+            trim($data['admission_number']),
+            $data['date_of_birth'] ?? null,
+            $data['photo_url']     ?? null,
+        ]
     );
-    success(fetchOne('SELECT * FROM students WHERE id = ?', [$id]), 'Student created', 201);
+    success(fetchOne('SELECT * FROM students WHERE id = ?', [$newId]), 'Student created', 201);
 }
 
 // ── PUT update ──────────────────────────────────────────────
@@ -73,17 +95,15 @@ if ($method === 'PUT') {
 
     $data = body();
     query(
-        'UPDATE students SET surname=?, first_name=?, last_name=?, class_id=?, date_of_birth=?, sex=?, photo_url=?, is_active=? WHERE id=?',
+        'UPDATE students SET first_name=?, last_name=?, class_id=?, date_of_birth=?, photo_url=?, is_active=? WHERE id=?',
         [
-            $data['surname']       ?? $student['surname'],
             $data['first_name']    ?? $student['first_name'],
             $data['last_name']     ?? $student['last_name'],
-            $data['class_id']      ?? $student['class_id'],
+            array_key_exists('class_id', $data) ? $data['class_id'] : $student['class_id'],
             $data['date_of_birth'] ?? $student['date_of_birth'],
-            $data['sex']           ?? $student['sex'],
             $data['photo_url']     ?? $student['photo_url'],
-            $data['is_active']     ?? $student['is_active'],
-            $id
+            isset($data['is_active']) ? (int)$data['is_active'] : $student['is_active'],
+            $id,
         ]
     );
     success(fetchOne('SELECT * FROM students WHERE id = ?', [$id]), 'Student updated');

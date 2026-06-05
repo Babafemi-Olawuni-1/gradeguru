@@ -1,0 +1,12 @@
+Options -Indexes
+RewriteEngine On
+
+# Serve backend files directly (PHP, uploads, etc.)
+RewriteRule ^backend/ - [L]
+
+# Serve existing files and directories directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route all other requests to the React app's index.html
+RewriteRule . /index.html [L]

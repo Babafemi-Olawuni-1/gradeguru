@@ -8,6 +8,7 @@ import {
 import { useAuth } from '../../context/AuthContext'
 import styles from './AdminLayout.module.css'
 import { resolveUrl } from '../../utils/resolveUrl'
+import { API_BASE_URL } from '../../config'
 
 const nav = [
   { label: 'Dashboard',    icon: LayoutDashboard, path: '/admin' },
@@ -36,7 +37,7 @@ export default function AdminLayout({ children, title }) {
   // Sync latest school data on first mount
   useEffect(() => {
     if (!token) return
-    fetch('/api/school', { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_BASE_URL}/school`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(d => { if (d.success) updateSchool({ ...school, ...d.data.school }) })
       .catch(() => {})

@@ -1,4 +1,17 @@
+Options -Indexes
 RewriteEngine On
+
+# Allow actual files and directories to be served directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route all API requests through router.php
 RewriteRule ^api/(.*)$ api/router.php [QSA,L]
+
+# Production CORS — restrict to live domain only
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "https://gradeguru.atayesefm.com.ng"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+    Header always set Access-Control-Allow-Credentials "true"
+</IfModule>
