@@ -80,6 +80,7 @@ $routes = [
     'school/public'   => __DIR__ . '/school/public.php',
     'school/upload'   => __DIR__ . '/school/upload.php',
     'students'        => __DIR__ . '/students/index.php',
+    'students/import' => __DIR__ . '/students/import.php',
     'teachers'        => __DIR__ . '/teachers/index.php',
     'classes'         => __DIR__ . '/classes/index.php',
     'subjects'        => __DIR__ . '/subjects/index.php',

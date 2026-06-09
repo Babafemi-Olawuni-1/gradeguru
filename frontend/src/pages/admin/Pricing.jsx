@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import AdminLayout from '../../components/admin/AdminLayout'
@@ -22,7 +22,7 @@ const PLANS = [
       { text: 'Bulk email to parents',       yes: false },
       { text: 'ID card generation',          yes: false },
       { text: 'AI lesson notes',             yes: false },
-      { text: 'Remove GradeGuru branding',   yes: false },
+      { text: 'Remove ExclusiveGrade branding',   yes: false },
       { text: 'Custom domain',               yes: false },
     ],
   },
@@ -41,7 +41,7 @@ const PLANS = [
       { text: '50 ID cards/term',            yes: true },
       { text: '20 AI lesson notes/term',     yes: true },
       { text: 'PIN at ₦80 (save 20%)',       yes: true },
-      { text: 'Remove GradeGuru branding',   yes: true },
+      { text: 'Remove ExclusiveGrade branding',   yes: true },
       { text: 'Custom CSS',                  yes: true },
       { text: 'Custom domain',               yes: false },
     ],

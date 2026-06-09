@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { GraduationCap, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import styles from './Navbar.module.css'
 
 export default function Navbar() {
@@ -19,8 +19,10 @@ export default function Navbar() {
   return (
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
       <Link to="/" className={styles.logo}>
-        <GraduationCap size={26} strokeWidth={2.5} />
-        Grade<span>Guru</span>
+        <div className={styles.logoImgWrap}>
+          <img src="/logo.png" alt="ExclusiveGrade" className={styles.logoImg} />
+        </div>
+        Exclusive<span>Grade</span>
       </Link>
 
       <div className={`${styles.links} ${open ? styles.open : ''}`}>

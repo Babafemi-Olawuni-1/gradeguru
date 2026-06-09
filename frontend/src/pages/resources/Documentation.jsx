@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { BookOpen, ChevronRight, Search } from 'lucide-react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
@@ -35,7 +35,7 @@ const docs = [
     items: [
       { title: 'AI Lesson Notes', desc: 'How to generate WASSCE-aligned lesson notes using the AI tool.' },
       { title: 'ID Card Generator', desc: 'Creating and downloading student ID cards in bulk.' },
-      { title: 'Custom Domain Setup', desc: 'Connecting your own domain to your GradeGuru school page.' },
+      { title: 'Custom Domain Setup', desc: 'Connecting your own domain to your ExclusiveGrade school page.' },
     ]
   },
 ]
@@ -57,7 +57,7 @@ export default function Documentation() {
         <div className={styles.hero}>
           <span className={styles.label}>Resources</span>
           <h1>Documentation</h1>
-          <p>Everything you need to get the most out of GradeGuru.</p>
+          <p>Everything you need to get the most out of ExclusiveGrade.</p>
           <div className={styles.searchWrap}>
             <Search size={18} />
             <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search documentation..." />

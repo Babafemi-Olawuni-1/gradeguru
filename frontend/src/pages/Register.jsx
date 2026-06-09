@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { GraduationCap, Eye, EyeOff, ArrowRight } from 'lucide-react'
+import { Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { useApi } from '../hooks/useApi'
 import styles from './Auth.module.css'
 
@@ -59,7 +59,12 @@ export default function Register() {
   return (
     <div className={styles.page}>
       <nav className={styles.miniNav}>
-        <Link to="/" className={styles.logo}><GraduationCap size={22} />Grade<span>Guru</span></Link>
+        <Link to="/" className={styles.logo}>
+          <div className={styles.logoImgWrap}>
+            <img src="/logo.png" alt="ExclusiveGrade" className={styles.logoImg} />
+          </div>
+          Exclusive<span>Grade</span>
+        </Link>
         <Link to="/login" className={styles.navLink}>
           <span className={styles.hideOnMobile}>Already have an account? </span><b>Log in</b>
         </Link>
@@ -96,7 +101,7 @@ export default function Register() {
             <div className={styles.field}>
               <label>School URL Slug</label>
               <input name="slug" value={form.slug} onChange={handleChange} placeholder="e.g. greenfield-academy" />
-              <span className={styles.slugPreview}>gradeguru.com/<b>{form.slug || 'yourschool'}</b></span>
+              <span className={styles.slugPreview}>exclusivegrade.com/<b>{form.slug || 'yourschool'}</b></span>
             </div>
             <div className={styles.field}>
               <label>Admin Email</label>

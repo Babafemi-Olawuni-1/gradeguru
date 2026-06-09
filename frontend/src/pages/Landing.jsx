@@ -137,7 +137,7 @@ export default function Landing() {
   const [period, setPeriod] = useState('monthly')
 
   const features = [
-    { icon: School,      title: 'Branded School Page',   desc: 'Every school gets a public page at gradeguru.com/schoolname with logo, colors, and contact info.' },
+    { icon: School,      title: 'Branded School Page',   desc: 'Every school gets a public page at exclusivegrade.com/schoolname with logo, colors, and contact info.' },
     { icon: FileText,    title: 'Result Management',     desc: 'Upload results via CSV or manually. Save drafts, publish by term, apply custom grading templates.' },
     { icon: Lock,        title: 'Secure PIN System',     desc: 'Generate single or bulk PINs. Each PIN is single-use with expiry dates and full audit trails.' },
     { icon: Wallet,      title: 'Wallet & Payments',     desc: 'Fund your school wallet via Paystack or Flutterwave. Track every transaction with full history.' },
@@ -149,7 +149,7 @@ export default function Landing() {
   ]
 
   const steps = [
-    { icon: School,     title: 'Register Your School',    desc: 'Sign up and instantly get your branded URL at gradeguru.com/yourschool. No technical setup needed.' },
+    { icon: School,     title: 'Register Your School',    desc: 'Sign up and instantly get your branded URL at exclusivegrade.com/yourschool. No technical setup needed.' },
     { icon: Users,      title: 'Add Students & Teachers', desc: 'Import students via CSV or add manually. Assign teachers to classes and subjects in seconds.' },
     { icon: FileText,   title: 'Upload Results',          desc: 'Teachers upload scores via CSV or enter manually. Save drafts, then publish when ready.' },
     { icon: Lock,       title: 'Generate PINs',           desc: 'Fund your wallet and generate secure PINs. Bulk discounts available for large batches.' },
@@ -170,7 +170,7 @@ export default function Landing() {
         { text: 'Bulk email to parents', included: false },
         { text: 'ID card generation', included: false },
         { text: 'AI lesson notes', included: false },
-        { text: 'Remove GradeGuru branding', included: false },
+        { text: 'Remove ExclusiveGrade branding', included: false },
       ]
     },
     {
@@ -184,7 +184,7 @@ export default function Landing() {
         { text: '50 ID cards/term', included: true },
         { text: '20 AI lesson notes/term', included: true },
         { text: 'PIN at ₦80 (save 20%)', included: true },
-        { text: 'Remove GradeGuru branding', included: true },
+        { text: 'Remove ExclusiveGrade branding', included: true },
         { text: 'Custom domain', included: false },
       ]
     },
@@ -206,7 +206,7 @@ export default function Landing() {
   ]
 
   const testimonials = [
-    { quote: 'GradeGuru transformed how we handle results. Parents no longer queue at the school gate — they check results from their phones.', name: 'Adaeze Okonkwo', role: 'Principal, Sunrise Academy, Lagos', initials: 'AO' },
+    { quote: 'ExclusiveGrade transformed how we handle results. Parents no longer queue at the school gate — they check results from their phones.', name: 'Adaeze Okonkwo', role: 'Principal, Sunrise Academy, Lagos', initials: 'AO' },
     { quote: 'The AI lesson notes feature alone is worth the Pro plan. My teachers save hours every week preparing for class.', name: 'Babatunde Musa', role: 'Head Teacher, Excel College, Abuja', initials: 'BM' },
     { quote: 'Setting up took less than 10 minutes. We had our school page live and PINs generated before the end of the day.', name: 'Fatima Eze', role: 'Admin, Greenfield Schools, Port Harcourt', initials: 'FE' },
   ]
@@ -226,7 +226,7 @@ export default function Landing() {
             The Smarter Way to<br />
             <span className={styles.highlight}>Manage School Results</span>
           </h1>
-          <p>GradeGuru gives every school a branded page, secure PIN-based result access, AI lesson notes, and ID card generation — all in one platform.</p>
+          <p>ExclusiveGrade gives every school a branded page, secure PIN-based result access, AI lesson notes, and ID card generation — all in one platform.</p>
           <div className={styles.heroActions}>
             <Link to="/register" className={styles.btnPrimary}>
               Get Started Free <ArrowRight size={18} />
@@ -271,7 +271,7 @@ export default function Landing() {
         <div className={styles.sectionHead}>
           <span className={styles.sectionLabel}>Simple Process</span>
           <h2 className={styles.sectionTitle}>Up and running in minutes</h2>
-          <p className={styles.sectionSub}>From registration to your first result check — GradeGuru makes it effortless for any school.</p>
+          <p className={styles.sectionSub}>From registration to your first result check — ExclusiveGrade makes it effortless for any school.</p>
         </div>
         <div className={styles.stepsGrid}>
           {steps.map((s, i) => <StepCard key={i} num={i + 1} {...s} />)}
@@ -283,7 +283,7 @@ export default function Landing() {
         <div className={styles.sectionHead}>
           <span className={styles.sectionLabel}>Everything You Need</span>
           <h2 className={styles.sectionTitle}>Built for every role in your school</h2>
-          <p className={styles.sectionSub}>From the school admin to the parent checking results on a phone — GradeGuru covers every touchpoint.</p>
+          <p className={styles.sectionSub}>From the school admin to the parent checking results on a phone — ExclusiveGrade covers every touchpoint.</p>
         </div>
         <div className={styles.featuresGrid}>
           {features.map((f, i) => <FeatureCard key={i} {...f} />)}
@@ -320,7 +320,7 @@ export default function Landing() {
         <div className={styles.sectionHead}>
           <span className={styles.sectionLabel}>What Schools Say</span>
           <h2 className={styles.sectionTitle}>Loved by school administrators</h2>
-          <p className={styles.sectionSub}>Real feedback from schools already using GradeGuru across Nigeria.</p>
+          <p className={styles.sectionSub}>Real feedback from schools already using ExclusiveGrade across Nigeria.</p>
         </div>
         <div className={styles.testimonialsGrid}>
           {testimonials.map((t, i) => <TestimonialCard key={i} {...t} />)}
@@ -330,7 +330,7 @@ export default function Landing() {
       {/* ── CTA ── */}
       <section className={styles.cta}>
         <h2>Ready to modernize your school?</h2>
-        <p>Join hundreds of schools already using GradeGuru. Start free — no credit card required.</p>
+        <p>Join hundreds of schools already using ExclusiveGrade. Start free — no credit card required.</p>
         <div className={styles.ctaActions}>
           <Link to="/register" className={styles.btnPrimary}>
             Register Your School Free <ArrowRight size={18} />

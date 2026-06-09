@@ -43,7 +43,7 @@ export default function CsvTemplates() {
         <div className={styles.hero}>
           <span className={styles.label}>Resources</span>
           <h1>CSV Templates</h1>
-          <p>Download ready-to-use CSV templates for importing students, results, and teachers into GradeGuru.</p>
+          <p>Download ready-to-use CSV templates for importing students, results, and teachers into ExclusiveGrade.</p>
         </div>
 
         <div className={styles.section}>

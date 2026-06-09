@@ -59,7 +59,12 @@ export default function AdminLayout({ children, title }) {
       {/* ── Sidebar ── */}
       <aside className={`${styles.sidebar} ${sidebarOpen ? styles.open : ''}`}>
         <div className={styles.sidebarHead}>
-          <Link to="/" className={styles.logo}>Grade<span>Guru</span></Link>
+          <Link to="/" className={styles.logo}>
+            <div className={styles.logoImgWrap}>
+              <img src="/logo.png" alt="ExclusiveGrade" className={styles.logoImg} />
+            </div>
+            Exclusive<span>Grade</span>
+          </Link>
           <button className={styles.closeBtn} onClick={() => setSidebarOpen(false)}><X size={18} /></button>
         </div>
 

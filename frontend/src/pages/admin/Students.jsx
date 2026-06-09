@@ -63,7 +63,14 @@ export default function Students() {
   // Passport photo
   const [photoFile,    setPhotoFile]    = useState(null)
   const [photoPreview, setPhotoPreview] = useState(null)
-  const photoRef = useRef()
+  const photoRef    = useRef()
+
+  // CSV import state
+  const [csvFile,      setCsvFile]      = useState(null)
+  const [csvImporting, setCsvImporting] = useState(false)
+  const [csvResult,    setCsvResult]    = useState(null)
+  const [csvError,     setCsvError]     = useState('')
+  const csvInputRef = useRef()
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -141,6 +148,25 @@ export default function Students() {
   const handleDeactivate = async (id) => {
     if (!confirm('Deactivate this student?')) return
     try { await del(`/students?id=${id}`); load() } catch (e) { alert(e.message) }
+  }
+
+  const handleCsvImport = async () => {
+    if (!csvFile) { setCsvError('Please select a CSV file'); return }
+    setCsvImporting(true); setCsvError(''); setCsvResult(null)
+    try {
+      const fd = new FormData()
+      fd.append('csv', csvFile)
+      const res = await fetch(`${API_BASE_URL}/students/import`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${localStorage.getItem('gg_token')}` },
+        body: fd,
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.message || 'Import failed')
+      setCsvResult(data.data)
+      load() // refresh student list
+    } catch (e) { setCsvError(e.message) }
+    finally { setCsvImporting(false) }
   }
 
   const f = (k) => (e) => setForm(p => ({ ...p, [k]: e.target.value }))
@@ -315,19 +341,58 @@ export default function Students() {
 
       {/* ── CSV import modal ── */}
       {modal === 'csv' && (
-        <Modal title="Import Students via CSV" onClose={() => setModal(null)}>
+        <Modal title="Import Students via CSV" onClose={() => { setModal(null); setCsvFile(null); setCsvResult(null); setCsvError('') }}>
           <div className={styles.csvInfo}>
-            <p>Download the template, fill it in, then upload. Columns: surname, first_name, last_name, admission_number, sex, date_of_birth, class_name.</p>
-            <a href="/csv-templates" target="_blank" className={styles.btnOutline}>
-              <Download size={15} /> Download Template
-            </a>
-            <div className={styles.field} style={{ marginTop: '1rem' }}>
-              <label>Upload CSV File</label>
-              <input type="file" accept=".csv" />
-            </div>
-            <button className={styles.btnPrimary} style={{ marginTop: '1rem', width: '100%' }}>
-              Upload & Import
-            </button>
+            {csvResult ? (
+              <div>
+                <div className={styles.csvSuccess}>
+                  <Check size={20} color="#16a34a" />
+                  <strong>{csvResult.imported} student{csvResult.imported !== 1 ? 's' : ''} imported successfully</strong>
+                  {csvResult.skipped > 0 && <span>{csvResult.skipped} skipped</span>}
+                </div>
+                {csvResult.errors?.length > 0 && (
+                  <div className={styles.csvErrors}>
+                    <p>Issues encountered:</p>
+                    <ul>{csvResult.errors.slice(0, 10).map((e, i) => <li key={i}>{e}</li>)}</ul>
+                  </div>
+                )}
+                <button className={styles.btnPrimary} style={{ marginTop: '1rem', width: '100%' }}
+                  onClick={() => { setModal(null); setCsvFile(null); setCsvResult(null); setCsvError('') }}>
+                  Done
+                </button>
+              </div>
+            ) : (
+              <>
+                <p>Download the template, fill it in, then upload.</p>
+                <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)', margin: '0.25rem 0 0.75rem' }}>
+                  Required columns: <code>first_name, last_name, admission_number</code><br />
+                  Optional: <code>class_name, date_of_birth (YYYY-MM-DD)</code>
+                </p>
+                <a href="/csv-templates" target="_blank" className={styles.btnOutline}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1rem' }}>
+                  <Download size={15} /> Download Template
+                </a>
+                {csvError && <div className={styles.formError} style={{ marginBottom: '0.75rem' }}>{csvError}</div>}
+                <div className={styles.field}>
+                  <label>Upload CSV File</label>
+                  <input
+                    ref={csvInputRef}
+                    type="file"
+                    accept=".csv"
+                    onChange={e => { setCsvFile(e.target.files[0] || null); setCsvError('') }}
+                  />
+                  {csvFile && <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginTop: '0.25rem' }}>{csvFile.name}</span>}
+                </div>
+                <button
+                  className={styles.btnPrimary}
+                  style={{ marginTop: '1rem', width: '100%' }}
+                  onClick={handleCsvImport}
+                  disabled={csvImporting || !csvFile}
+                >
+                  {csvImporting ? 'Importing...' : <><Upload size={15} /> Upload & Import</>}
+                </button>
+              </>
+            )}
           </div>
         </Modal>
       )}

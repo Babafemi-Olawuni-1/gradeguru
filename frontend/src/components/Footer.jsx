@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { GraduationCap } from 'lucide-react'
 import styles from './Footer.module.css'
 
 export default function Footer() {
@@ -8,8 +7,10 @@ export default function Footer() {
       <div className={styles.grid}>
         <div className={styles.brand}>
           <div className={styles.logo}>
-            <GraduationCap size={22} />
-            Grade<span>Guru</span>
+            <div className={styles.logoImgWrap}>
+              <img src="/logo.png" alt="ExclusiveGrade" className={styles.logoImg} />
+            </div>
+            Exclusive<span>Grade</span>
           </div>
           <p>The all-in-one school management platform built for African schools. Manage results, generate PINs, and grow with confidence.</p>
         </div>
@@ -42,7 +43,7 @@ export default function Footer() {
         </div>
       </div>
       <div className={styles.bottom}>
-        <p>&copy; {new Date().getFullYear()} GradeGuru. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} ExclusiveGrade. All rights reserved.</p>
         <p>Built for schools across Africa</p>
       </div>
     </footer>

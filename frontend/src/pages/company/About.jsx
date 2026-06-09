@@ -1,4 +1,4 @@
-import { Users, Target, Globe, Zap } from 'lucide-react'
+﻿import { Users, Target, Globe, Zap } from 'lucide-react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import styles from './Page.module.css'
@@ -11,15 +11,15 @@ export default function About() {
         <div className={styles.hero}>
           <span className={styles.label}>About Us</span>
           <h1>Built for African Schools</h1>
-          <p>GradeGuru was founded with one mission — make school result management simple, secure, and accessible for every school across Africa.</p>
+          <p>ExclusiveGrade was founded with one mission — make school result management simple, secure, and accessible for every school across Africa.</p>
         </div>
 
         <div className={styles.section}>
           <div className={styles.grid2}>
             <div className={styles.textBlock}>
               <h2>Our Story</h2>
-              <p>We saw how schools struggled with paper-based result systems, long queues of parents, and lost result sheets. GradeGuru was built to solve that — giving every school a digital home, a secure PIN system, and tools that actually work on shared hosting and slow internet.</p>
-              <p>Today, over 100 schools across Nigeria use GradeGuru to manage results, generate PINs, and communicate with parents — all from one dashboard.</p>
+              <p>We saw how schools struggled with paper-based result systems, long queues of parents, and lost result sheets. ExclusiveGrade was built to solve that — giving every school a digital home, a secure PIN system, and tools that actually work on shared hosting and slow internet.</p>
+              <p>Today, over 100 schools across Nigeria use ExclusiveGrade to manage results, generate PINs, and communicate with parents — all from one dashboard.</p>
             </div>
             <div className={styles.statsBox}>
               <div className={styles.statItem}><span>100+</span><p>Schools Registered</p></div>
@@ -33,7 +33,7 @@ export default function About() {
         <div className={styles.section} style={{background:'var(--blue-mid)'}}>
           <div className={styles.sectionHead}>
             <h2>Our Values</h2>
-            <p>What drives every decision we make at GradeGuru.</p>
+            <p>What drives every decision we make at ExclusiveGrade.</p>
           </div>
           <div className={styles.grid4}>
             {[

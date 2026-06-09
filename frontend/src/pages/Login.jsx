@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { GraduationCap, Eye, EyeOff, ArrowRight, School, BookOpen, Shield } from 'lucide-react'
+import { Eye, EyeOff, ArrowRight, School, BookOpen, Shield } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useApi } from '../hooks/useApi'
 import styles from './Auth.module.css'
@@ -44,7 +44,12 @@ export default function Login() {
   return (
     <div className={styles.page}>
       <nav className={styles.miniNav}>
-        <Link to="/" className={styles.logo}><GraduationCap size={22} />Grade<span>Guru</span></Link>
+        <Link to="/" className={styles.logo}>
+          <div className={styles.logoImgWrap}>
+            <img src="/logo.png" alt="ExclusiveGrade" className={styles.logoImg} />
+          </div>
+          Exclusive<span>Grade</span>
+        </Link>
         <Link to="/register" className={styles.navLink}>
           <span className={styles.hideOnMobile}>No account? </span><b>Register free</b>
         </Link>
@@ -54,7 +59,7 @@ export default function Login() {
         <div className={styles.box}>
           <div className={styles.boxHead}>
             <h1>Welcome back</h1>
-            <p>Log in to your GradeGuru account.</p>
+            <p>Log in to your ExclusiveGrade account.</p>
           </div>
 
           <div className={styles.roleTabs}>

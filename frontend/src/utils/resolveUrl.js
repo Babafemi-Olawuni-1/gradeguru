@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Converts a stored image path to a full displayable URL.
  *
  * Uploaded files are stored as paths like:

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+﻿import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
   Phone, Mail, MapPin, Key, ArrowRight, GraduationCap,
@@ -57,9 +57,9 @@ export default function SchoolPage() {
   // Set page title dynamically
   useEffect(() => {
     if (school?.name) {
-      document.title = `${school.name} - GradeGuru`
+      document.title = `${school.name} - ExclusiveGrade`
     }
-    return () => { document.title = 'GradeGuru – School Management Platform' }
+    return () => { document.title = 'ExclusiveGrade – School Management Platform' }
   }, [school])
 
   // Auto-advance carousel
@@ -117,8 +117,8 @@ export default function SchoolPage() {
     <div className={styles.notFound}>
       <GraduationCap size={64} />
       <h1>School not found</h1>
-      <p>No active school at <code>gradeguru.atayesefm.com.ng/s/{slug}</code></p>
-      <Link to="/">Back to GradeGuru</Link>
+      <p>No active school at <code>ExclusiveGrade.atayesefm.com.ng/s/{slug}</code></p>
+      <Link to="/">Back to ExclusiveGrade</Link>
     </div>
   )
 
@@ -417,7 +417,7 @@ export default function SchoolPage() {
             {navLinks.map(l => <button key={l.id} onClick={() => scrollTo(l.id)}>{l.label}</button>)}
           </div>
           <p className={styles.poweredBy}>
-            Powered by <Link to="/" target="_blank">GradeGuru</Link>
+            Powered by <Link to="/" target="_blank">ExclusiveGrade</Link>
           </p>
         </div>
       </footer>

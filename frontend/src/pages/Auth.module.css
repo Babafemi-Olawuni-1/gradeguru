@@ -20,7 +20,13 @@
   flex-shrink: 0;
 }
 .logo span { color: var(--purple-light); }
-.logo svg  { color: var(--purple-light); flex-shrink: 0; }
+.logoImgWrap {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden; padding: 3px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.logoImg { width: 100%; height: 100%; object-fit: contain; display: block; }
 
 .navLink {
   font-size: 0.88rem; color: var(--text-dim);
@@ -139,8 +145,7 @@
 @media (max-width: 600px) {
   .miniNav { padding: 0 4%; height: 58px; }
   .logo { font-size: 1.2rem; }
-  .logo svg { width: 18px; height: 18px; }
-  /* Shorten the nav link text on small screens */
+  .logoImgWrap { width: 24px; height: 24px; }
   .navLink { font-size: 0.8rem; }
 }
 
@@ -148,8 +153,6 @@
 @media (max-width: 420px) {
   .miniNav { padding: 0 4%; height: 56px; gap: 0.5rem; }
   .logo { font-size: 1.1rem; }
-  .logo svg { display: none; }
-  /* Hide "Already have an account?" — show only "Log in" */
   .navLink .hideOnMobile { display: none; }
 
   .container { padding: 24px 4%; align-items: flex-start; }

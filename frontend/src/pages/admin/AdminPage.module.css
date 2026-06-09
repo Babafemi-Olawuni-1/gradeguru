@@ -191,3 +191,19 @@
   .btnPrimary, .btnOutline { padding: 0.55rem 0.9rem; font-size: 0.8rem; }
   .table th, .table td { padding: 0.65rem 0.75rem; font-size: 0.8rem; }
 }
+
+/* ── CSV import modal styles ── */
+.csvInfo { display: flex; flex-direction: column; gap: 0.5rem; }
+.csvSuccess {
+  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 10px; padding: 0.9rem 1rem;
+  color: #15803d; font-size: 0.9rem; margin-bottom: 0.5rem;
+}
+.csvErrors {
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: 10px; padding: 0.75rem 1rem;
+  font-size: 0.82rem; color: #b91c1c;
+}
+.csvErrors ul { padding-left: 1.2rem; margin-top: 0.4rem; }
+.csvErrors li { margin-bottom: 0.2rem; }

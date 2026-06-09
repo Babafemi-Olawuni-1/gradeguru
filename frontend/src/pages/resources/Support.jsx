@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { ChevronDown, ChevronUp, Mail, MessageSquare } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
@@ -57,7 +57,7 @@ export default function Support() {
               <div className={styles.supportOptions}>
                 <Link to="/contact" className={styles.supportOption}>
                   <Mail size={20} />
-                  <div><strong>Email Support</strong><span>hello@gradeguru.com</span></div>
+                  <div><strong>Email Support</strong><span>hello@ExclusiveGrade.com</span></div>
                 </Link>
                 <Link to="/contact" className={styles.supportOption}>
                   <MessageSquare size={20} />
