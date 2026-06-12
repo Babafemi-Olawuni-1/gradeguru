@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { useApi } from '../hooks/useApi'
@@ -61,9 +61,9 @@ export default function Register() {
       <nav className={styles.miniNav}>
         <Link to="/" className={styles.logo}>
           <div className={styles.logoImgWrap}>
-            <img src="/logo.png" alt="ExclusiveGrade" className={styles.logoImg} />
+            <img src="/logo.png" alt="Exclusive Grades" className={styles.logoImg} />
           </div>
-          Exclusive<span>Grade</span>
+          Exclusive<span>Grades</span>
         </Link>
         <Link to="/login" className={styles.navLink}>
           <span className={styles.hideOnMobile}>Already have an account? </span><b>Log in</b>
@@ -101,7 +101,7 @@ export default function Register() {
             <div className={styles.field}>
               <label>School URL Slug</label>
               <input name="slug" value={form.slug} onChange={handleChange} placeholder="e.g. greenfield-academy" />
-              <span className={styles.slugPreview}>exclusivegrade.com/<b>{form.slug || 'yourschool'}</b></span>
+              <span className={styles.slugPreview}>Exclusive Grades.com/<b>{form.slug || 'yourschool'}</b></span>
             </div>
             <div className={styles.field}>
               <label>Admin Email</label>
@@ -129,3 +129,4 @@ export default function Register() {
     </div>
   )
 }
+

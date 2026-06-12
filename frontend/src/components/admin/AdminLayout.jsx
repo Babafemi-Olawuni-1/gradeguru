@@ -61,9 +61,9 @@ export default function AdminLayout({ children, title }) {
         <div className={styles.sidebarHead}>
           <Link to="/" className={styles.logo}>
             <div className={styles.logoImgWrap}>
-              <img src="/logo.png" alt="ExclusiveGrade" className={styles.logoImg} />
+              <img src="/logo.png" alt="Exclusive Grades" className={styles.logoImg} />
             </div>
-            Exclusive<span>Grade</span>
+            Exclusive<span>Grades</span>
           </Link>
           <button className={styles.closeBtn} onClick={() => setSidebarOpen(false)}><X size={18} /></button>
         </div>

@@ -418,7 +418,7 @@ export default function Settings() {
               <div>
                 <p className={styles.planName}>{school?.plan === 'pro' ? 'Pro Plan — ₦10,000/term' : school?.plan === 'enterprise' ? 'Enterprise Plan — ₦30,000/term' : 'Starter Plan (Free)'}</p>
                 <p className={styles.planDesc}>
-                  {(!school?.plan || school?.plan === 'starter') && 'Up to 5 students, 2 teachers. Upgrade to unlock more.'}
+                  {(!school?.plan || school?.plan === 'starter') && 'Up to 10 students, 2 teachers. Upgrade to unlock more.'}
                   {school?.plan === 'pro'        && 'Up to 200 students, 10 teachers, AI notes, ID cards, bulk email.'}
                   {school?.plan === 'enterprise' && 'Unlimited everything + custom domain + priority support.'}
                 </p>

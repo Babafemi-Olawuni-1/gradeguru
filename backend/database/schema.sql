@@ -29,6 +29,7 @@ CREATE TABLE schools (
   founder_name    VARCHAR(200) DEFAULT NULL,
   motto           VARCHAR(300) DEFAULT NULL,
   school_type     VARCHAR(100) DEFAULT NULL,
+  report_template VARCHAR(50)  NOT NULL DEFAULT 'classic',
   gallery         JSON         DEFAULT NULL,
   created_at      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -45,6 +46,7 @@ CREATE TABLE users (
   last_name       VARCHAR(100) NOT NULL,
   email           VARCHAR(200) NOT NULL UNIQUE,
   password_hash   VARCHAR(255) NOT NULL,
+  username        VARCHAR(100) DEFAULT NULL UNIQUE,
   is_active       TINYINT(1)   NOT NULL DEFAULT 1,
   failed_logins   TINYINT      NOT NULL DEFAULT 0,
   locked_until    DATETIME     DEFAULT NULL,

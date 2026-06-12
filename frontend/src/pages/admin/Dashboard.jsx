@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useApi } from '../../hooks/useApi'
 import styles from './Dashboard.module.css'
 
-const PLAN_LIMITS = { starter: { students: 5, teachers: 2 }, pro: { students: 200, teachers: 10 }, enterprise: { students: '∞', teachers: '∞' } }
+const PLAN_LIMITS = { starter: { students: 10, teachers: 2 }, pro: { students: 200, teachers: 10 }, enterprise: { students: '∞', teachers: '∞' } }
 
 export default function Dashboard() {
   const { school } = useAuth()
@@ -68,7 +68,7 @@ export default function Dashboard() {
       {plan === 'starter' && (
         <div className={styles.planAlert}>
           <AlertCircle size={18} />
-          <span>You're on the <strong>Starter plan</strong> — limited to 5 students and 2 teachers. <a href="/admin/pricing">Upgrade to Pro (₦10,000/term)</a> for more.</span>
+          <span>You're on the <strong>Starter plan</strong> — limited to 10 students and 2 teachers. <a href="/admin/pricing">Upgrade to Pro (₦10,000/term)</a> for more.</span>
         </div>
       )}
 

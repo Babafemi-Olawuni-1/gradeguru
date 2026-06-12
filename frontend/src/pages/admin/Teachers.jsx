@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Plus, Edit2, UserX, X, Check } from 'lucide-react'
+import { Plus, Edit2, UserX, X, Check, Copy, User } from 'lucide-react'
 import AdminLayout from '../../components/admin/AdminLayout'
 import { useApi } from '../../hooks/useApi'
+import { useAuth } from '../../context/AuthContext'
 import styles from './AdminPage.module.css'
 
 function Modal({ title, onClose, children }) {
@@ -22,29 +23,37 @@ const empty = { first_name: '', last_name: '', email: '', password: '' }
 
 export default function Teachers() {
   const { get, post, put, del } = useApi()
-  const [teachers, setTeachers] = useState([])
-  const [loading,  setLoading]  = useState(true)
-  const [modal,    setModal]    = useState(null) // 'add' | 'edit'
-  const [form,     setForm]     = useState(empty)
-  const [editId,   setEditId]   = useState(null)
-  const [saving,   setSaving]   = useState(false)
-  const [error,    setError]    = useState('')
+  const { school } = useAuth()
+  const [teachers,   setTeachers]   = useState([])
+  const [loading,    setLoading]    = useState(true)
+  const [modal,      setModal]      = useState(null)
+  const [form,       setForm]       = useState(empty)
+  const [editId,     setEditId]     = useState(null)
+  const [saving,     setSaving]     = useState(false)
+  const [error,      setError]      = useState('')
+  const [newTeacher, setNewTeacher] = useState(null) // holds newly created teacher credentials
+  const [copied,     setCopied]     = useState('')
 
   const load = useCallback(async () => {
     setLoading(true)
-    try { const res = await get('/teachers'); setTeachers(res.data || []) }
-    catch (e) { console.error(e) }
-    finally { setLoading(false) }
-  }, [])
+    try {
+      const res = await get('/teachers')
+      setTeachers(res.data || [])
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
+  }, [get])
 
   useEffect(() => { load() }, [load])
 
   const openAdd = () => {
-    setForm(empty); setEditId(null); setError(''); setModal('add')
+    setForm(empty); setEditId(null); setError(''); setNewTeacher(null); setModal('add')
   }
 
   const openEdit = (t) => {
-    setForm({ first_name: t.first_name, last_name: t.last_name, email: t.email, password: '' })
+    setForm({ first_name: t.first_name, last_name: t.last_name, email: t.email || '', password: '' })
     setEditId(t.id); setError(''); setModal('edit')
   }
 
@@ -52,21 +61,37 @@ export default function Teachers() {
     e.preventDefault(); setSaving(true); setError('')
     try {
       if (editId) {
-        // Only send password if filled in
-        const payload = { first_name: form.first_name, last_name: form.last_name, email: form.email }
+        const payload = { first_name: form.first_name, last_name: form.last_name }
         if (form.password) payload.password = form.password
         await put(`/teachers?id=${editId}`, payload)
+        setModal(null)
+        load()
       } else {
-        await post('/teachers', form)
+        // Create new teacher
+        const payload = { first_name: form.first_name, last_name: form.last_name }
+        if (form.email) payload.email = form.email
+        const res = await post('/teachers', payload)
+        // Show credentials modal
+        setNewTeacher(res.data)
+        setModal('credentials')
+        load()
       }
-      setModal(null); load()
-    } catch (e) { setError(e.message) }
-    finally { setSaving(false) }
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleDeactivate = async (id) => {
     if (!confirm('Deactivate this teacher? They will lose access.')) return
     try { await del(`/teachers?id=${id}`); load() } catch (e) { alert(e.message) }
+  }
+
+  const copyText = (text, key) => {
+    navigator.clipboard.writeText(text)
+    setCopied(key)
+    setTimeout(() => setCopied(''), 2000)
   }
 
   return (
@@ -82,7 +107,11 @@ export default function Teachers() {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Name</th><th>Email</th><th>Assignments</th><th>Status</th><th>Actions</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Assignments</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -98,8 +127,26 @@ export default function Teachers() {
               </tr>
             ) : teachers.map(t => (
               <tr key={t.id}>
-                <td><strong>{t.first_name} {t.last_name}</strong></td>
-                <td>{t.email}</td>
+                <td>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <div style={{
+                      width: 32, height: 32, borderRadius: '50%',
+                      background: 'var(--purple-dim)', display: 'flex',
+                      alignItems: 'center', justifyContent: 'center',
+                      fontSize: '0.8rem', fontWeight: 700, color: 'var(--purple-light)',
+                      flexShrink: 0,
+                    }}>
+                      {t.first_name?.[0]}{t.last_name?.[0]}
+                    </div>
+                    <strong>{t.first_name} {t.last_name}</strong>
+                  </div>
+                </td>
+                <td>
+                  {t.username
+                    ? <code style={{ fontSize: '0.8rem' }}>{t.username}</code>
+                    : <span className={styles.dim}>—</span>
+                  }
+                </td>
                 <td>
                   {t.assignments
                     ? <span style={{ fontSize: '0.8rem', color: '#6b7280' }}>{t.assignments}</span>
@@ -117,7 +164,6 @@ export default function Teachers() {
                     <button
                       onClick={() => handleDeactivate(t.id)}
                       title="Deactivate"
-                      style={{ '--hover-color': '#ef4444', '--hover-bg': '#fef2f2', '--hover-border': '#ef4444' }}
                       onMouseEnter={e => { e.currentTarget.style.color='#ef4444'; e.currentTarget.style.background='#fef2f2'; e.currentTarget.style.borderColor='#ef4444' }}
                       onMouseLeave={e => { e.currentTarget.style.color=''; e.currentTarget.style.background=''; e.currentTarget.style.borderColor='' }}
                     >
@@ -131,6 +177,7 @@ export default function Teachers() {
         </table>
       </div>
 
+      {/* ── Add / Edit Modal ── */}
       {(modal === 'add' || modal === 'edit') && (
         <Modal
           title={modal === 'add' ? 'Add Teacher' : 'Edit Teacher'}
@@ -138,40 +185,70 @@ export default function Teachers() {
         >
           <form onSubmit={handleSave} className={styles.form}>
             {error && <div className={styles.formError}>{error}</div>}
+
+            {modal === 'add' && (
+              <div style={{
+                background: 'rgba(124,58,237,0.08)', border: '1px solid rgba(124,58,237,0.2)',
+                borderRadius: 8, padding: '0.75rem 1rem', marginBottom: '1rem',
+                fontSize: '0.84rem', lineHeight: 1.6, color: 'var(--text-dim)'
+              }}>
+                <strong style={{ color: 'var(--purple-light)' }}>Auto-generated login:</strong><br />
+                A unique username will be created automatically. Default password = your school name (lowercase, no spaces).
+                You'll see the credentials after saving.
+              </div>
+            )}
+
             <div className={styles.formRow}>
               <div className={styles.field}>
-                <label>First Name</label>
-                <input required value={form.first_name} onChange={e => setForm({ ...form, first_name: e.target.value })} />
+                <label>First Name *</label>
+                <input
+                  required
+                  value={form.first_name}
+                  onChange={e => setForm({ ...form, first_name: e.target.value })}
+                  placeholder="e.g. Amaka"
+                />
               </div>
               <div className={styles.field}>
-                <label>Last Name</label>
-                <input required value={form.last_name} onChange={e => setForm({ ...form, last_name: e.target.value })} />
+                <label>Last Name *</label>
+                <input
+                  required
+                  value={form.last_name}
+                  onChange={e => setForm({ ...form, last_name: e.target.value })}
+                  placeholder="e.g. Obi"
+                />
               </div>
             </div>
-            <div className={styles.field}>
-              <label>Email</label>
-              <input
-                type="email" required
-                value={form.email}
-                onChange={e => setForm({ ...form, email: e.target.value })}
-                readOnly={modal === 'edit'} // email can't change on edit
-                style={modal === 'edit' ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
-              />
-            </div>
-            <div className={styles.field}>
-              <label>
-                {modal === 'edit' ? 'New Password' : 'Temporary Password'}
-                {modal === 'edit' && <span style={{ color: '#9ca3af', fontWeight: 400, marginLeft: 4 }}>(leave blank to keep current)</span>}
-              </label>
-              <input
-                type="password"
-                required={modal === 'add'}
-                minLength={modal === 'add' ? 8 : 0}
-                value={form.password}
-                onChange={e => setForm({ ...form, password: e.target.value })}
-                placeholder={modal === 'edit' ? 'Leave blank to keep current' : 'Min 8 characters'}
-              />
-            </div>
+
+            {modal === 'add' && (
+              <div className={styles.field}>
+                <label>Email <span style={{ color: 'var(--text-dim)', fontWeight: 400 }}>(optional)</span></label>
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={e => setForm({ ...form, email: e.target.value })}
+                  placeholder="teacher@school.com (optional)"
+                />
+              </div>
+            )}
+
+            {modal === 'edit' && (
+              <div className={styles.field}>
+                <label>
+                  New Password
+                  <span style={{ color: '#9ca3af', fontWeight: 400, marginLeft: 4 }}>
+                    (leave blank to keep current)
+                  </span>
+                </label>
+                <input
+                  type="password"
+                  minLength={6}
+                  value={form.password}
+                  onChange={e => setForm({ ...form, password: e.target.value })}
+                  placeholder="Leave blank to keep current"
+                />
+              </div>
+            )}
+
             <div className={styles.formActions}>
               <button type="button" className={styles.btnOutline} onClick={() => setModal(null)}>Cancel</button>
               <button type="submit" className={styles.btnPrimary} disabled={saving}>
@@ -179,6 +256,82 @@ export default function Teachers() {
               </button>
             </div>
           </form>
+        </Modal>
+      )}
+
+      {/* ── Credentials Modal (shown after teacher creation) ── */}
+      {modal === 'credentials' && newTeacher && (
+        <Modal title="Teacher Created — Share Credentials" onClose={() => { setModal(null); setNewTeacher(null) }}>
+          <div className={styles.form}>
+            <div style={{
+              background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)',
+              borderRadius: 10, padding: '1rem', marginBottom: '1.25rem', textAlign: 'center'
+            }}>
+              <Check size={32} color="#4ade80" style={{ marginBottom: '0.5rem' }} />
+              <p style={{ fontWeight: 700, color: '#4ade80', marginBottom: '0.25rem' }}>
+                {newTeacher.first_name} {newTeacher.last_name} has been added!
+              </p>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-dim)' }}>
+                Share these login credentials with the teacher.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {/* Login page */}
+              <div style={{ background: 'var(--bg-card)', borderRadius: 8, padding: '0.75rem 1rem' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.3rem' }}>Login page</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <code style={{ fontSize: '0.85rem' }}>{window.location.origin}/login</code>
+                  <button
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }}
+                    onClick={() => copyText(`${window.location.origin}/login`, 'url')}
+                  >
+                    {copied === 'url' ? <Check size={14} color="#4ade80" /> : <Copy size={14} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Username */}
+              <div style={{ background: 'var(--bg-card)', borderRadius: 8, padding: '0.75rem 1rem' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.3rem' }}>Username</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <code style={{ fontSize: '0.9rem', fontWeight: 700 }}>{newTeacher.username}</code>
+                  <button
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }}
+                    onClick={() => copyText(newTeacher.username, 'user')}
+                  >
+                    {copied === 'user' ? <Check size={14} color="#4ade80" /> : <Copy size={14} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Default password */}
+              <div style={{ background: 'var(--bg-card)', borderRadius: 8, padding: '0.75rem 1rem' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginBottom: '0.3rem' }}>Default Password</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <code style={{ fontSize: '0.9rem', fontWeight: 700 }}>{newTeacher.default_password}</code>
+                  <button
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }}
+                    onClick={() => copyText(newTeacher.default_password, 'pass')}
+                  >
+                    {copied === 'pass' ? <Check size={14} color="#4ade80" /> : <Copy size={14} />}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginTop: '0.75rem', textAlign: 'center' }}>
+              Ask the teacher to change their password after first login.
+            </p>
+
+            <button
+              className={styles.btnPrimary}
+              style={{ width: '100%', marginTop: '1rem', justifyContent: 'center' }}
+              onClick={() => { setModal(null); setNewTeacher(null) }}
+            >
+              Done
+            </button>
+          </div>
         </Modal>
       )}
     </AdminLayout>

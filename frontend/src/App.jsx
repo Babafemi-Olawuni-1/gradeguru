@@ -13,16 +13,24 @@ import CsvTemplates  from './pages/resources/CsvTemplates'
 import Support       from './pages/resources/Support'
 import SchoolPage    from './pages/SchoolPage'
 
+// Admin
 import Dashboard     from './pages/admin/Dashboard'
 import Students      from './pages/admin/Students'
 import Teachers      from './pages/admin/Teachers'
 import Classes       from './pages/admin/Classes'
+import Results       from './pages/admin/Results'
+import Analytics     from './pages/admin/Analytics'
 import Pins          from './pages/admin/Pins'
 import Wallet        from './pages/admin/Wallet'
 import Announcements from './pages/admin/Announcements'
 import Onboarding    from './pages/admin/Onboarding'
 import Settings      from './pages/admin/Settings'
 import Pricing       from './pages/admin/Pricing'
+
+// Teacher
+import TeacherDashboard from './pages/teacher/TeacherDashboard'
+import TeacherStudents  from './pages/teacher/TeacherStudents'
+import TeacherResults   from './pages/teacher/TeacherResults'
 
 function PrivateRoute({ children, role }) {
   const { user, token } = useAuth()
@@ -55,11 +63,21 @@ export default function App() {
       <Route path="/admin/students"      element={<PrivateRoute role="school_admin"><Students /></PrivateRoute>} />
       <Route path="/admin/teachers"      element={<PrivateRoute role="school_admin"><Teachers /></PrivateRoute>} />
       <Route path="/admin/classes"       element={<PrivateRoute role="school_admin"><Classes /></PrivateRoute>} />
+      <Route path="/admin/results"       element={<PrivateRoute role="school_admin"><Results /></PrivateRoute>} />
+      <Route path="/admin/analytics"     element={<PrivateRoute role="school_admin"><Analytics /></PrivateRoute>} />
       <Route path="/admin/pins"          element={<PrivateRoute role="school_admin"><Pins /></PrivateRoute>} />
       <Route path="/admin/wallet"        element={<PrivateRoute role="school_admin"><Wallet /></PrivateRoute>} />
       <Route path="/admin/announcements" element={<PrivateRoute role="school_admin"><Announcements /></PrivateRoute>} />
       <Route path="/admin/settings"      element={<PrivateRoute role="school_admin"><Settings /></PrivateRoute>} />
       <Route path="/admin/pricing"       element={<PrivateRoute role="school_admin"><Pricing /></PrivateRoute>} />
+
+      {/* Teacher */}
+      <Route path="/teacher"          element={<PrivateRoute role="teacher"><TeacherDashboard /></PrivateRoute>} />
+      <Route path="/teacher/students" element={<PrivateRoute role="teacher"><TeacherStudents /></PrivateRoute>} />
+      <Route path="/teacher/results"  element={<PrivateRoute role="teacher"><TeacherResults /></PrivateRoute>} />
+
+      {/* Super admin — redirect to login for now until super admin UI is built */}
+      <Route path="/super" element={<PrivateRoute role="super_admin"><Navigate to="/login" replace /></PrivateRoute>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

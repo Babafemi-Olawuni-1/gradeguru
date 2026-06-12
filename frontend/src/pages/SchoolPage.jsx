@@ -57,9 +57,9 @@ export default function SchoolPage() {
   // Set page title dynamically
   useEffect(() => {
     if (school?.name) {
-      document.title = `${school.name} - ExclusiveGrade`
+      document.title = `${school.name} - Exclusive Grades`
     }
-    return () => { document.title = 'ExclusiveGrade – School Management Platform' }
+    return () => { document.title = 'Exclusive Grades – School Management Platform' }
   }, [school])
 
   // Auto-advance carousel
@@ -117,8 +117,8 @@ export default function SchoolPage() {
     <div className={styles.notFound}>
       <GraduationCap size={64} />
       <h1>School not found</h1>
-      <p>No active school at <code>ExclusiveGrade.atayesefm.com.ng/s/{slug}</code></p>
-      <Link to="/">Back to ExclusiveGrade</Link>
+      <p>No active school at <code>Exclusive Grades.atayesefm.com.ng/s/{slug}</code></p>
+      <Link to="/">Back to Exclusive Grades</Link>
     </div>
   )
 
@@ -417,7 +417,7 @@ export default function SchoolPage() {
             {navLinks.map(l => <button key={l.id} onClick={() => scrollTo(l.id)}>{l.label}</button>)}
           </div>
           <p className={styles.poweredBy}>
-            Powered by <Link to="/" target="_blank">ExclusiveGrade</Link>
+            Powered by <Link to="/" target="_blank">Exclusive Grades</Link>
           </p>
         </div>
       </footer>
@@ -425,3 +425,4 @@ export default function SchoolPage() {
     </div>
   )
 }
+

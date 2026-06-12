@@ -13,7 +13,7 @@ const PLANS = [
     desc: 'Perfect for small schools testing the platform.',
     color: '#64748b',
     features: [
-      { text: 'Up to 5 students',            yes: true },
+      { text: 'Up to 10 students',           yes: true },
       { text: 'Up to 2 teachers',            yes: true },
       { text: 'School landing page',         yes: true },
       { text: 'Result upload & management',  yes: true },
@@ -22,7 +22,7 @@ const PLANS = [
       { text: 'Bulk email to parents',       yes: false },
       { text: 'ID card generation',          yes: false },
       { text: 'AI lesson notes',             yes: false },
-      { text: 'Remove ExclusiveGrade branding',   yes: false },
+      { text: 'Remove Exclusive Grades branding',  yes: false },
       { text: 'Custom domain',               yes: false },
     ],
   },
@@ -41,7 +41,7 @@ const PLANS = [
       { text: '50 ID cards/term',            yes: true },
       { text: '20 AI lesson notes/term',     yes: true },
       { text: 'PIN at ₦80 (save 20%)',       yes: true },
-      { text: 'Remove ExclusiveGrade branding',   yes: true },
+      { text: 'Remove Exclusive Grades branding',  yes: true },
       { text: 'Custom CSS',                  yes: true },
       { text: 'Custom domain',               yes: false },
     ],
@@ -208,7 +208,7 @@ export default function Pricing() {
               { q: 'When does billing happen?', a: 'Subscriptions are billed per term. You pay at the start of each term to activate your plan.' },
               { q: 'Can I downgrade?', a: 'Yes. Downgrading takes effect at the end of your current term. Your data is never deleted.' },
               { q: 'What happens if I exceed my student limit?', a: 'You can purchase Extra Student add-ons at ₦250/student/term, or upgrade your plan.' },
-              { q: 'Is there a free trial?', a: 'The Starter plan is permanently free with up to 5 students. No credit card required.' },
+              { q: 'Is there a free trial?', a: 'The Starter plan is permanently free with up to 10 students. No credit card required.' },
             ].map(f => (
               <div key={f.q} className={styles.faqCard}>
                 <strong>{f.q}</strong>

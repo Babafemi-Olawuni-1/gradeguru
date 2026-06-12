@@ -33,6 +33,7 @@ if ($method === 'PUT') {
         'name', 'welcome_text', 'phone', 'address', 'email',
         'primary_color', 'about', 'founded_year', 'founder_name',
         'motto', 'school_type', 'gallery', 'logo_url', 'onboarded',
+        'report_template',
     ];
 
     $updates = [];

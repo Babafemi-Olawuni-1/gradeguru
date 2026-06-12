@@ -37,10 +37,10 @@ export default function Contact() {
               <p>Reach out through any of the channels below or fill in the form and we'll get back to you within 24 hours.</p>
               <div className={styles.contactItems}>
                 {[
-                  { icon: Mail,        label: 'Email',    value: 'hello@ExclusiveGrade.com' },
+                  { icon: Mail,        label: 'Email',    value: 'hello@Exclusive Grades.com' },
                   { icon: Phone,       label: 'Phone',    value: '+234 800 000 0000' },
                   { icon: MapPin,      label: 'Location', value: 'Lagos, Nigeria' },
-                  { icon: MessageSquare, label: 'Support', value: 'support@ExclusiveGrade.com' },
+                  { icon: MessageSquare, label: 'Support', value: 'support@Exclusive Grades.com' },
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className={styles.contactItem}>
                     <div className={styles.contactIcon}><Icon size={18} strokeWidth={1.8} /></div>
@@ -98,3 +98,4 @@ export default function Contact() {
     </div>
   )
 }
+

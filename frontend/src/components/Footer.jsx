@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import styles from './Footer.module.css'
 
 export default function Footer() {
@@ -8,9 +8,9 @@ export default function Footer() {
         <div className={styles.brand}>
           <div className={styles.logo}>
             <div className={styles.logoImgWrap}>
-              <img src="/logo.png" alt="ExclusiveGrade" className={styles.logoImg} />
+              <img src="/logo.png" alt="Exclusive Grades" className={styles.logoImg} />
             </div>
-            Exclusive<span>Grade</span>
+            Exclusive<span>Grades</span>
           </div>
           <p>The all-in-one school management platform built for African schools. Manage results, generate PINs, and grow with confidence.</p>
         </div>
@@ -43,9 +43,10 @@ export default function Footer() {
         </div>
       </div>
       <div className={styles.bottom}>
-        <p>&copy; {new Date().getFullYear()} ExclusiveGrade. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Exclusive Grades. All rights reserved.</p>
         <p>Built for schools across Africa</p>
       </div>
     </footer>
   )
 }
+

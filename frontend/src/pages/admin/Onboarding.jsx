@@ -9,7 +9,7 @@ import {
 import styles from './Onboarding.module.css'
 
 const STEPS = [
-  { id: 'welcome',  title: 'Welcome to ExclusiveGrade',   icon: GraduationCap },
+  { id: 'welcome',  title: 'Welcome to Exclusive Grades',   icon: GraduationCap },
   { id: 'school',   title: 'Set Up Your School',      icon: School },
   { id: 'class',    title: 'Create Your First Class', icon: BookOpen },
   { id: 'students', title: 'Add Students',            icon: Users },
@@ -97,7 +97,7 @@ export default function Onboarding() {
 
       {/* Header */}
       <div className={styles.header}>
-        <div className={styles.logo}><GraduationCap size={22} />Exclusive<span>Grade</span></div>
+        <div className={styles.logo}><GraduationCap size={22} />Exclusive<span>Grades</span></div>
         <button className={styles.skipBtn} onClick={finish}>Skip setup</button>
       </div>
 
@@ -122,7 +122,7 @@ export default function Onboarding() {
         {/* ── STEP 0: Welcome ── */}
         {step === 0 && (
           <div className={styles.stepContent}>
-            <p>Hi <strong>{user?.first_name}</strong>, welcome to ExclusiveGrade! Let's get <strong>{school?.name}</strong> set up in just a few steps.</p>
+            <p>Hi <strong>{user?.first_name}</strong>, welcome to Exclusive Grades! Let's get <strong>{school?.name}</strong> set up in just a few steps.</p>
             <div className={styles.featureList}>
               {[
                 { icon: School,   text: 'Set up your school profile' },
@@ -286,3 +286,4 @@ export default function Onboarding() {
     </div>
   )
 }
+

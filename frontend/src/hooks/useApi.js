@@ -1,9 +1,15 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import { API_BASE_URL } from '../config'
 
 export function useApi() {
+  // Keep a stable ref to the token so request() never changes identity
+  const tokenRef = useRef(localStorage.getItem('gg_token'))
+
+  // Sync token ref on every render so it's always current
+  tokenRef.current = localStorage.getItem('gg_token')
+
   const request = useCallback(async (method, path, body = null) => {
-    const token = localStorage.getItem('gg_token')
+    const token = tokenRef.current
 
     const opts = {
       method,
@@ -18,7 +24,7 @@ export function useApi() {
     try {
       res = await fetch(`${API_BASE_URL}${path}`, opts)
     } catch (networkErr) {
-      throw new Error(`Network error — check your connection`)
+      throw new Error('Network error — check your connection')
     }
 
     const text = await res.text()
@@ -45,12 +51,13 @@ export function useApi() {
 
     if (!data.success) throw new Error(data.message || 'Request failed')
     return data
-  }, [])
+  }, []) // stable — never recreated
 
-  const get  = (path)       => request('GET',    path)
-  const post = (path, body) => request('POST',   path, body)
-  const put  = (path, body) => request('PUT',    path, body)
-  const del  = (path)       => request('DELETE', path)
+  // These are also stable because request is stable
+  const get  = useCallback((path)        => request('GET',    path),        [request])
+  const post = useCallback((path, body)  => request('POST',   path, body),  [request])
+  const put  = useCallback((path, body)  => request('PUT',    path, body),  [request])
+  const del  = useCallback((path)        => request('DELETE', path),        [request])
 
-  return { get, post, put, del }
+  return { get, post, put, del, request }
 }

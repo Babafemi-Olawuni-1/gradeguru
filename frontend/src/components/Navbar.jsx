@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import styles from './Navbar.module.css'
@@ -20,9 +20,9 @@ export default function Navbar() {
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
       <Link to="/" className={styles.logo}>
         <div className={styles.logoImgWrap}>
-          <img src="/logo.png" alt="ExclusiveGrade" className={styles.logoImg} />
+          <img src="/logo.png" alt="Exclusive Grades" className={styles.logoImg} />
         </div>
-        Exclusive<span>Grade</span>
+        Exclusive<span>Grades</span>
       </Link>
 
       <div className={`${styles.links} ${open ? styles.open : ''}`}>
@@ -43,3 +43,4 @@ export default function Navbar() {
     </nav>
   )
 }
+
